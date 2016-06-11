@@ -1,0 +1,58 @@
+# Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
+# This file is available under the MIT license.
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: graylog
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: graylog
+      labels:
+        app: graylog
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+        ports:
+        - containerPort: 27017
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+      - name: elasticsearch
+        image: elasticsearch
+        args:
+        - -Des.cluster.name="graylog"
+        # - -Des.discovery.zen.ping.multicast.enabled="false"
+        # - -Des.discovery.zen.ping.unicast.hosts="graylog"
+        ports:
+        - containerPort: 9200
+        - containerPort: 9300
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+      - name: graylog
+        image: graylog2/server
+        ports:
+        - containerPort: 9000
+        - containerPort: 9350
+        - containerPort: 12900
+        env:
+        - name: GRAYLOG_WEB_LISTEN_URI
+          value: http://0.0.0.0:9000/
+        - name: GRAYLOG_MONGODB_URI
+          value: mongodb://localhost:27017/graylog
+        - name: GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_MULTICAST_ENABLED
+          value: "false"
+        - name: GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_UNICAST_HOSTS
+          value: "127.0.0.1:9300"
+        - name: GRAYLOG_WEB_ENDPOINT_URI
+          value: "http://graylog-api.dev"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "1024Mi"
