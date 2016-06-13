@@ -1,0 +1,24 @@
+# Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
+# This file is available under the MIT license.
+
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: fluentd
+spec:
+  selector:
+    matchLabels:
+      logger: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+        logger: fluentd
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: fluentd
+        image: kkohtaka/fluentd
+        ports:
+        - containerPort: 24224
+          hostPort: 24224

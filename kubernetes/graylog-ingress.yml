@@ -19,6 +19,12 @@ spec:
       - backend:
           serviceName: graylog
           servicePort: 12900
+  - host: graylog-gelf.dev
+    http:
+      paths:
+      - backend:
+          serviceName: graylog
+          servicePort: 12202
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet

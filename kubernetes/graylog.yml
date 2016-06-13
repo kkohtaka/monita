@@ -41,11 +41,13 @@ spec:
         - containerPort: 9000
         - containerPort: 9350
         - containerPort: 12900
+        - containerPort: 12201
+        - containerPort: 12202
         env:
         - name: GRAYLOG_WEB_LISTEN_URI
           value: http://0.0.0.0:9000/
         - name: GRAYLOG_MONGODB_URI
-          value: mongodb://localhost:27017/graylog
+          value: mongodb://127.0.0.1:27017/graylog
         - name: GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_MULTICAST_ENABLED
           value: "false"
         - name: GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_UNICAST_HOSTS

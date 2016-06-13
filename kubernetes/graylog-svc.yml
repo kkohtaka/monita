@@ -15,3 +15,10 @@ spec:
   - name: api
     port: 12900
     targetPort: 12900
+  - name: gelf-udp
+    protocol: UDP
+    port: 12201
+    targetPort: 12201
+  - name: gelf
+    port: 12202
+    targetPort: 12202
