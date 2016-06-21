@@ -8,17 +8,16 @@ metadata:
 spec:
   selector:
     app: graylog
+  type: NodePort
   ports:
   - name: web
     port: 9000
     targetPort: 9000
+    nodePort: 30080
   - name: api
     port: 12900
     targetPort: 12900
-  - name: gelf-udp
-    protocol: UDP
+    nodePort: 30180
+  - name: gelf
     port: 12201
     targetPort: 12201
-  - name: gelf
-    port: 12202
-    targetPort: 12202

@@ -16,9 +16,14 @@ spec:
         logger: fluentd
     spec:
       terminationGracePeriodSeconds: 60
+      volumes:
+      - name: nginx-log
+        hostPath:
+          path: /var/log/nginx/
       containers:
       - name: fluentd
         image: kkohtaka/fluentd
-        ports:
-        - containerPort: 24224
-          hostPort: 24224
+        volumeMounts:
+        - name: nginx-log
+          mountPath: /var/log/nginx/
+          readOnly: true

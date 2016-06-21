@@ -14,47 +14,24 @@ spec:
         app: graylog
     spec:
       containers:
-      - name: mongo
-        image: mongo
-        ports:
-        - containerPort: 27017
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
-      - name: elasticsearch
-        image: elasticsearch
-        args:
-        - -Des.cluster.name=graylog
-        - -Des.discovery.zen.ping.multicast.enabled=false
-        - -Des.discovery.zen.ping.unicast.hosts=127.0.0.1:9300
-        ports:
-        - containerPort: 9200
-        - containerPort: 9300
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
       - name: graylog
         image: graylog2/server
         ports:
         - containerPort: 9000
-        - containerPort: 9350
         - containerPort: 12900
         - containerPort: 12201
-        - containerPort: 12202
         env:
         - name: GRAYLOG_WEB_LISTEN_URI
           value: http://0.0.0.0:9000/
         - name: GRAYLOG_MONGODB_URI
-          value: mongodb://127.0.0.1:27017/graylog
+          value: mongodb://mongodb:27017/graylog
         - name: GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_MULTICAST_ENABLED
           value: "false"
         - name: GRAYLOG_ELASTICSEARCH_DISCOVERY_ZEN_PING_UNICAST_HOSTS
-          value: "127.0.0.1:9300"
+          value: "elasticsearch:9300"
         - name: GRAYLOG_WEB_ENDPOINT_URI
-          value: "http://graylog-api.dev"
+          value: "http://graylog.dev:30180"
         resources:
           requests:
             cpu: "100m"
-            memory: "1024Mi"
+            memory: "1000Mi"
